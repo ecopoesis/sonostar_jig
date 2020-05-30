@@ -4,14 +4,28 @@ pvc_id = pvc_od - (2 * pvc_wall);
 h = 25.4;
 screw_d = 5.2; //5.159375
 
+$fn=100;
+
 difference() {
   union() {
     // pipe
     cylinder(h=h, r=pvc_od/2, center=true);
     
     // ears
-    translate([pvc_wall/2,0,0]) {
-      cube([pvc_wall, 120, h], center=true);
+    translate([0,pvc_od/2,0]) {
+      rotate([0,90,0]) {
+        cylinder(h=pvc_wall, r=h/2);
+      }
+    }
+    
+    translate([0,-pvc_od/2,0]) {
+      rotate([0,90,0]) {
+        cylinder(h=pvc_wall, r=h/2);
+      }
+    }
+    
+    translate([0,-(pvc_od+h)/2,0]) {
+      cube([pvc_wall, pvc_od+h, h/2]);
     }
   }
   
@@ -32,14 +46,14 @@ difference() {
   
   // ear holes
   rotate([0,90,0]) {
-    translate([0,-40,0], center=true) {
+    translate([0,-(pvc_od/2)-(h/4),0], center=true) {
       cylinder(h=50, r=screw_d/2);
     }
   }
 
 
   rotate([0,90,0]) {
-    translate([0,40,0], center=true) {
+    translate([0,(pvc_od/2)+(h/4),0], center=true) {
       cylinder(h=50, r=screw_d/2);
     }
   }
